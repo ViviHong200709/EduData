@@ -64,7 +64,7 @@ def _frequency(students,order_by_session=True):
         for student_id, sessions in tqdm(students.items(), "calculating frequency"):
             frequency[student_id] = len(sessions)
     else:
-        # group by counts
+        # group by record counts
         for student_id, sessions in tqdm(students.items(), "calculating frequency"):
             frequency[student_id] = sum([len(logs) for session,logs in sessions.items()])
     return sorted(frequency.items(), key=lambda x: x[1], reverse=True)
