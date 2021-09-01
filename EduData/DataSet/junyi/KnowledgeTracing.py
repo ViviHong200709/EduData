@@ -42,7 +42,8 @@ def _read(source: str, ku_dict: str) -> dict:
             if session not in students[student]:
                 students[student][session] = []
 
-            students[student][session].append([int(timestamp), exercise, correct])
+            students[student][session].append(
+                [int(timestamp), exercise, correct])
     return students
 
 
@@ -51,13 +52,15 @@ def _write(students, target, max_record_len=200):
         for student_id, sessions in tqdm(students.items(), "writing -> %s" % target):
             for session_id, exercises in sessions.items():
                 exercises.sort(key=lambda x: x[0])
-                exercises_splited = [exercises[i:i+max_record_len] for i in range(0,len(exercises),max_record_len)]
+                exercises_splited = [exercises[i:i + max_record_len]
+                                     for i in range(0, len(exercises), max_record_len)]
                 for exercises_ in exercises_splited:
-                    exercise_response = [(exercise[1], exercise[2]) for exercise in exercises_]
+                    exercise_response = [(exercise[1], exercise[2])
+                                         for exercise in exercises_]
                     print(json.dumps(exercise_response), file=wf)
 
 
-def _frequency(students,order_by_session=True):
+def _frequency(students, order_by_session=True):
     frequency = {}
     if order_by_session:
         # group by session counts
@@ -66,7 +69,8 @@ def _frequency(students,order_by_session=True):
     else:
         # group by record counts
         for student_id, sessions in tqdm(students.items(), "calculating frequency"):
-            frequency[student_id] = sum([len(logs) for session,logs in sessions.items()])
+            frequency[student_id] = sum([len(logs)
+                                         for session, logs in sessions.items()])
     return sorted(frequency.items(), key=lambda x: x[1], reverse=True)
 
 
@@ -79,7 +83,7 @@ def get_n_most_frequent_students(students, n=None, frequency: list = None):
     return _students
 
 
-def select_n_most_frequent_students(source: str, target_prefix: str, ku_dict_path: str, n: (int, list),order_by_session:bool,max_record_len:int):
+def select_n_most_frequent_students(source: str, target_prefix: str, ku_dict_path: str, n: (int, list), order_by_session: bool, max_record_len: int):
     """
     Read the learners' interaction records and select the records of students who answered questions most frequently,
     then sort the record by timestamp to create sequence(in json format).
@@ -109,6 +113,7 @@ def select_n_most_frequent_students(source: str, target_prefix: str, ku_dict_pat
     """
     n_list = as_list(n)
     students = _read(source, ku_dict_path)
-    frequency = _frequency(students,order_by_session=False)
+    frequency = _frequency(students, order_by_session=False)
     for _n in n_list:
-        _write(get_n_most_frequent_students(students, _n, frequency), target_prefix + "%s" % _n,max_record_len)
+        _write(get_n_most_frequent_students(students, _n, frequency),
+               target_prefix + "%s" % _n, max_record_len)

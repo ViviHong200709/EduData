@@ -21,7 +21,7 @@ def extract_relations(src_root: str = "../raw_data/junyi/", tar_root: str = "../
 
 def build_json_sequence(src_root: str = "../raw_data/junyi/", tar_root: str = "../data/junyi/data/",
                         ku_dict_path: str = "../data/junyi/data/graph_vertex.json", n: int = 1000,
-                        order_by_session: bool = True, max_record_len: int=200):
+                        order_by_session: bool = True, max_record_len: int = 200):
     """
     Read the learners' interaction records and select the records of students who answered questions most frequently,
     then sort the record by timestamp to create sequence.

@@ -84,7 +84,8 @@ def extract_similarity(source, target, ku_dict):
         f.readline()
         ku_dict = json.load(kf)
         for line in csv.reader(f):
-            similarity.append((ku_dict[line[0]], ku_dict[line[1]], float(line[2])))
+            similarity.append(
+                (ku_dict[line[0]], ku_dict[line[1]], float(line[2])))
 
         logger.info("similarity edges: %s" % len(similarity))
 
@@ -102,7 +103,8 @@ def extract_difficulty(source, target, ku_dict):
         f.readline()
         ku_dict = json.load(kf)
         for line in csv.reader(f):
-            difficulty.append((ku_dict[line[0]], ku_dict[line[1]], float(line[4])))
+            difficulty.append(
+                (ku_dict[line[0]], ku_dict[line[1]], float(line[4])))
 
         logger.info("edges: %s" % len(difficulty))
 
@@ -121,7 +123,8 @@ def build_knowledge_graph(src_root: str, tar_root: (str, None) = None,
     assert ku_dict_path is not None
 
     relation_src = merge_relationship_annotation(
-        [path_append(src_root, "relationship_annotation_{}.csv".format(name)) for name in ["testing", "training"]],
+        [path_append(src_root, "relationship_annotation_{}.csv".format(name))
+         for name in ["testing", "training"]],
         path_append(src_root, "relationship_annotation.csv")
     )
     ku_dict_path = path_append(tar_root, ku_dict_path)
