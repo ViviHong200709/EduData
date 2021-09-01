@@ -83,7 +83,8 @@ def get_n_most_frequent_students(students, n=None, frequency: list = None):
     return _students
 
 
-def select_n_most_frequent_students(source: str, target_prefix: str, ku_dict_path: str, n: (int, list), order_by_session: bool, max_record_len: int):
+def select_n_most_frequent_students(source: str, target_prefix: str, ku_dict_path: str, n: (int, list),
+                                    order_by_session: bool, max_record_len: int):
     """
     Read the learners' interaction records and select the records of students who answered questions most frequently,
     then sort the record by timestamp to create sequence(in json format).
